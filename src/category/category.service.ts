@@ -13,8 +13,9 @@ export class CategoryService {
         private categoryRepo: Repository<Category>
     ) { }
 
-    find({ where, select }: FindCategoryParams = {}) {
-        return this.categoryRepo.find({ where, select })
+    find(params?: FindCategoryParams) {
+        const { where, select, relations } = params || {};
+        return this.categoryRepo.find({ where, select, relations });
     }
 
     findOne({ where, select }: FindCategoryParams = {}) {
@@ -26,12 +27,13 @@ export class CategoryService {
 
     }
 
-
     async create(params: CreateCategoryDto) {
         let category = this.categoryRepo.create(params);
         await category.save();
         return category;
     }
+
+
     async delete(id: number) {
         let result = await this.categoryRepo.delete({ id });
         if (result.affected === 0) throw new NotFoundException();

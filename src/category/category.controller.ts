@@ -4,14 +4,14 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "src/guards/auth.guard";
 import { CreateCategoryDto } from "./dto/create-category.dto";
 
-@Controller()
+@Controller('category')
 @ApiTags('Category')
 export class CategoryController {
     constructor(private categoryService: CategoryService) { }
 
     @Get()
     list() {
-        return this.categoryService.find();
+        return this.categoryService.find({relations:['products']});
     }
 
     @Get(':id')
