@@ -4,9 +4,9 @@ import { ProductService } from "./product.service";
 import { AuthGuard } from "src/guards/auth.guard";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
-import { query } from "express";
 import { GetProductDto } from "./dto/get-product.dto";
-import { filter } from "rxjs";
+import { Roles } from "src/common/decorators/roles.decorator";
+import { UserRoles } from "src/common/enum/user-roles.enum";
 
 @Controller('product')
 @ApiTags('Product')
@@ -19,7 +19,11 @@ export class ProductsController {
     list(@Query() query: GetProductDto) {
         let price: [number, number] = [query.maxPrice, query.minPrice]
         return this.productsService.find(
-            { relations: ['categories'], filter: { ...query, price } }
+            {
+                filter: { ...query, price },
+                pagination: { limit: query.limit, page: query.page },
+                relations: ['categories'],
+            }
         );
     }
 
@@ -31,6 +35,7 @@ export class ProductsController {
     @Post()
     @ApiBearerAuth()
     @UseGuards(AuthGuard)
+    @Roles(UserRoles.ADMIN,UserRoles.CONTENT_MANAGER)
     create(@Body() body: CreateProductDto) {
         return this.productsService.create(body);
     }
@@ -38,6 +43,7 @@ export class ProductsController {
     @Post(':id')
     @ApiBearerAuth()
     @UseGuards(AuthGuard)
+    @Roles(UserRoles.ADMIN,UserRoles.CONTENT_MANAGER)
     update(@Param('id') id: number, @Body() body: UpdateProductDto) {
         return this.productsService.update(id, body)
     }

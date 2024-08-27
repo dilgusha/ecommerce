@@ -1,8 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards } from "@nestjs/common";
 import { CategoryService } from "./category.service";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "src/guards/auth.guard";
 import { CreateCategoryDto } from "./dto/create-category.dto";
+import { GetCategoryDto } from "./dto/get-category.dto";
+import { query } from "express";
 
 @Controller('category')
 @ApiTags('Category')
@@ -11,7 +13,7 @@ export class CategoryController {
 
     @Get()
     list() {
-        return this.categoryService.find({relations:['products']});
+        return this.categoryService.find({});
     }
 
     @Get(':id')

@@ -9,6 +9,7 @@ import config from './config/config';
 import { ProfileModule } from './profile/profile.module';
 import { ProductModule } from './product/product.module';
 import { CategoryModule } from './category/category.module';
+import { OrderModule } from './Order/order.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -20,6 +21,8 @@ import { CategoryModule } from './category/category.module';
       password: config.database.password,
       database: config.database.name,
       entities: [`${__dirname}/**/*.entity.{ts,js}`],
+      migrations:[`${__dirname}/**/migrations/*.js`],
+      migrationsRun: true,
       synchronize: true,
       logging: true
     }),
@@ -27,7 +30,8 @@ import { CategoryModule } from './category/category.module';
     AuthModule,
     ProfileModule,
     ProductModule,
-    CategoryModule
+    CategoryModule,
+    OrderModule
   ],
   controllers: [AppController],
   providers: [AppService],

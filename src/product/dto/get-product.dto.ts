@@ -35,7 +35,7 @@ export class GetProductDto {
 
     @Type()
     @IsOptional()
-    @ApiProperty({ default: [1], required: false, type: String })
-    @Transform(({ value }) => (value.split(',')))
-    category: number[];
+    @ApiProperty({ default: [1, 2], required: false, type: String })
+    @Transform(({ value }) => (value.split(',').map(Number)))
+    categories: number[];
 }

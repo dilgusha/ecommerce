@@ -19,6 +19,6 @@ export class Product extends CommonEntity {
     @Column()
     image: string;
 
-    @ManyToMany(() => Category, (category)=> category.products,{cascade: true})
+    @ManyToMany(() => Category, (category)=> category.products,{onDelete:'CASCADE'})
     categories: Category[]
 }

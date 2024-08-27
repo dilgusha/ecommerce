@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Category } from "src/entities/Category.entity";
-import { In, Repository } from "typeorm";
+import { ILike, In, Repository } from "typeorm";
 import { FindCategoryParams } from "./category.types";
 import { CreateCategoryDto } from "./dto/create-category.dto";
 
@@ -13,9 +13,17 @@ export class CategoryService {
         private categoryRepo: Repository<Category>
     ) { }
 
-    find(params?: FindCategoryParams) {
+
+
+
+
+    async find(params?: FindCategoryParams) {
         const { where, select, relations } = params || {};
-        return this.categoryRepo.find({ where, select, relations });
+
+        return this.categoryRepo.find({
+            where, select, relations,
+
+        });
     }
 
     findOne({ where, select }: FindCategoryParams = {}) {

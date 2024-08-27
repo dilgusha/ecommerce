@@ -10,6 +10,6 @@ export class Category extends CommonEntity {
     name: string;
 
     @ManyToMany(() => Product, (product) => product.categories)
-    @JoinTable()
+    @JoinTable({name: "category_product"})
     products: Product[];
 }
